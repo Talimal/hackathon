@@ -1,8 +1,9 @@
 import socket
 import threading
 from struct import unpack
-import msvcrt
+import curses
 import Printer
+from pynput import keyboard
 
 serverPort = 12000
 bufferSize = 1024
@@ -33,37 +34,64 @@ def connectToGame(serverPort, serverIp):
 	Printer.print_to_client_screen_green("Connected to the game")
 
 	return TCPClientSocket
-	
 
 # Gaming----------------------------------------------
+
+
+def on_press_socket(TCPSocket):
+	def on_press(key):
+		try:
+			TCPSocket.sendall(bytes('c', 'utf-8'))
+			print("Types something")
+		except:
+			print("Ending session")
+			return False
+	return on_press
+
 def gameOn(TCPSocket):
-    # start the thread who listens to the keyboard
-	thread = threading.Thread(target=typeAnything, args=(TCPSocket, ))
-	thread.start()
+    #*start the thread who listens to the keyboard
+
+	# thread = threading.Thread(target=typeAnything, args=(TCPSocket, ))
+	# thread.start()
+	# listener = keyboard.Listener(on_press=lambda _: TCPSocket.sendall(bytes('c', 'utf-8')))
+	# listener.start()
+
+	# listener = keyboard.Listener(on_press=on_press_socket(TCPSocket))
+	# listener.start()
+
+
     # the main thread receiving from server
 	receiveFromServer(TCPSocket)
+
+	# listener.stop()
+	print("Stopped listening")
     # wait for both of threads
-	thread.join()
+	# thread.join()
 
 def receiveFromServer(TCPSocket):
 	with TCPSocket:
 		while(1):
+			print("Getting a message from the server")
 			try:
 				sentence = TCPSocket.recv(bufferSize)
-				if sentence:
-					Printer.print_to_client_screen_orange(sentence.decode('utf-8'))
-				else:
+				if not sentence:
+					print("ERROR1")
 					return
+				Printer.print_to_client_screen_orange(sentence.decode('utf-8'))
+				
 			except:
+				print("ERROR2")
 				return
 
 def typeAnything(TCPSocket):
 	while(1):
 		try:
 			# change when connecting to SSH!!!!!!!!!!!!
-			char = msvcrt.getche()
+			# print("", end="\n")
+			# char = 
+			# print("Hello")
 			# input_from_keyboard = input()
-			TCPSocket.sendall(char)
+			TCPSocket.sendall(bytes(char, 'utf-8'))
 		except:
 			return
 # -----------------------------------------------------------

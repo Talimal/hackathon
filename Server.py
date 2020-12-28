@@ -5,6 +5,8 @@ from Client import Client
 from Networking import Networking
 from struct import pack
 import Printer
+from itertools import chain
+
 
 serverPort = 12000
 ## getting the hostname by socket.gethostname() method
@@ -68,8 +70,7 @@ def sendWelcomeMessage():
 	team1NamesToSend = '\n'.join([elem for elem in team1Names]) 
 	team2NamesToSend = '\n'.join([elem for elem in team2Names]) 
 
-	message = f"""
-Welcome to Keyboard Spamming Battle Royale.
+	message = f"""Welcome to Keyboard Spamming Battle Royale.
 Group 1:
 ==
 {team1NamesToSend}
@@ -108,27 +109,21 @@ def calculateWinners():
 	else:
 		winner=None
 	
-	namesString='\n'.join([elem for elem in getNamesByTeam(winner)])
-	message = f"""
-Game over!
+	namesString ='\n'.join([elem for elem in getNamesByTeam(winner)])
+	message = f"""Game over!
 Group 1 typed in {countTeam1} characters. Group 2 typed in {countTeam2} characters.
 Group {1 if (winner == team1) else 2} wins!
 Congratulations to the winners:
 ==
-{namesString}
-"""
+{namesString}"""
 
-	names1String='\n'.join([elem for elem in getNamesByTeam(team1)])
-	names2String='\n'.join([elem for elem in getNamesByTeam(team2)])
-	tieMessage = f"""
-Game over!
+	namesString ='\n'.join([elem for elem in chain(getNamesByTeam(team1), getNamesByTeam(team2))])
+	tieMessage = f"""Game over!
 Group 1 typed in {countTeam1} characters. Group 2 also typed in {countTeam2} characters!.
 It's a tie :o!
 Congratulations to everybody!:
 ==
-{names1String}
-{names2String}
-"""
+{namesString}"""
 		
 	# send the end message to everybody in the game
 	messageToSend = message if winner else tieMessage
