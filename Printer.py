@@ -17,15 +17,14 @@ class colorCodes:
 	YELLOW = 226
 	ORANGE = 209
 	GREEN = 154
+	RED = 211
 
 def print_in_color(msg, color = colorCodes.ORANGE):
-    # print(f"\033[{style};{color};{backgroundColor + 10}m {msg} {ENDC}")
-	# print(f"\033[{style};{color};{newBackground}m {msg} {ENDC}")
-	print(u"\u001b[38;5;" + str(color) + "m" + msg + " \u001b[0m")
+	print(u"\u001b[38;5;" + str(color) + "m" + msg + " \u001b[0m\n")
 
 # ombre printing
 def print_clientMessage(msg):
-	print_in_color(msg, color = colorCodes.PURPLE)
+	print_in_color(msg, color = colorCodes.PINK_RED)
 
 def print_state(msg):
 	print_in_color(msg, color = colorCodes.CYAN)
@@ -38,3 +37,6 @@ def print_to_client_screen_orange(msg):
 
 def print_to_client_screen_green(msg):
 	print_in_color(msg, color = colorCodes.GREEN)
+
+def error(msg):
+	print_in_color(msg, color = colorCodes.RED)

@@ -16,8 +16,8 @@ class Networking:
 
 
 	def acceptClient(self):
-		clientSocket, _ = self.TCPSocket.accept()
-		return clientSocket
+		clientSocket, address = self.TCPSocket.accept()
+		return (clientSocket, address)
 
 
 	def createBroadcastSocket(self):

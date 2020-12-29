@@ -1,7 +1,7 @@
 import socket
 import threading
 import time
-from Client import Client
+from ClientHandler import Client
 from Networking import Networking
 from struct import pack
 import Printer
@@ -43,19 +43,27 @@ def sendBroadcasts():
 		networking.sendBroadcast(message)
 		time.sleep(0.2)
 
+def removeIfExists(client_ip, client_port):
+	global clientsLists
+	for client in clientsLists:
+		if client.isFrom(client_ip, client_port):
+			clientsLists.remove(client)
+
 def acceptClients():
 	global broadcastMode
 	global clientsLists
 	assignTo = team1
 	while(True):
-		clientSocket = networking.acceptClient()
+		(clientSocket, (client_ip, client_port)) = networking.acceptClient()
 		if(not broadcastMode):
 			clientSocket.close()
 		else:
-			newClient = Client(clientSocket, assignTo)
+			removeIfExists(client_ip, client_port)
+			newClient = Client(clientSocket, assignTo, client_ip, client_port)
 			assignTo = team2 if (assignTo==team1) else team1
 			clientsLists.append(newClient)
 			threading.Thread(target=clientThreadGame, args=(newClient,)).start()
+				
 
 # gaming stage ---------------------------------------------------------------------------------------------
 def getNamesByTeam(team):
