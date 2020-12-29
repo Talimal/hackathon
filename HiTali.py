@@ -1,9 +1,10 @@
 import socket
 import threading
 from struct import unpack
-import curses
+# import curses
 import Printer
-from pynput import keyboard
+# import getch
+# from pynput import keyboard
 
 serverPort = 12000
 bufferSize = 1024
@@ -53,6 +54,7 @@ def gameOn(TCPSocket):
 
 	# thread = threading.Thread(target=typeAnything, args=(TCPSocket, ))
 	# thread.start()
+
 	# listener = keyboard.Listener(on_press=lambda _: TCPSocket.sendall(bytes('c', 'utf-8')))
 	# listener.start()
 
@@ -69,28 +71,21 @@ def gameOn(TCPSocket):
 	# thread.join()
 
 def receiveFromServer(TCPSocket):
-	with TCPSocket:
-		while(1):
-			print("Getting a message from the server")
-			try:
-				sentence = TCPSocket.recv(bufferSize)
-				if not sentence:
-					print("ERROR1")
-					return
-				Printer.print_to_client_screen_orange(sentence.decode('utf-8'))
-				
-			except:
-				print("ERROR2")
-				return
+	while(1):
+		# print("Getting a message from the server")
+		# TCPSocket.sendall(bytes('', 'utf-8'))
+		# sentence = TCPSocket.recv(bufferSize)
+
+		# if not sentence:
+		# 	print("ERROR1!!!!!!")
+		# 	TCPSocket.close()
+		# 	return
+		Printer.print_to_client_screen_orange(sentence.decode('utf-8'))
 
 def typeAnything(TCPSocket):
 	while(1):
 		try:
-			# change when connecting to SSH!!!!!!!!!!!!
-			# print("", end="\n")
-			# char = 
-			# print("Hello")
-			# input_from_keyboard = input()
+			char = getch.getch()
 			TCPSocket.sendall(bytes(char, 'utf-8'))
 		except:
 			return

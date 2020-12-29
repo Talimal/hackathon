@@ -167,9 +167,9 @@ def main():
 
 	while(1):
 		threading.Thread(target=sendBroadcasts, args=()).start()
-		time.sleep(10)
+		time.sleep(5)
 		startGame()
-		time.sleep(10)
+		time.sleep(5)
 		endRound()
 
 if __name__ == "__main__":
