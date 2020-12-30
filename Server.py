@@ -119,7 +119,10 @@ Group 1:
 
 Group 2:
 ==
-{team2NamesToSend}"""
+{team2NamesToSend}
+
+FIGHT!!!!!
+"""
 	
 	sendClients(message)
 
@@ -192,7 +195,7 @@ Congratulations to everybody!:
 {namesString}
 """
 
-	mostTypedChar = f"Most typed char in this game was {maxTypesChar} which was types {maxTimesOfChar} times." if maxTimesOfChar != 0 else ""
+	mostTypedChar = f"Most typed char in this game was '{maxTypesChar}'' which was typed {maxTimesOfChar} times." if maxTimesOfChar != 0 else ""
 	statisticsRegular = f"""
 Statistics
 ========
