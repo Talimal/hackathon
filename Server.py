@@ -251,7 +251,7 @@ def getCorrectAddress():
 	global ip_address
 	global developing
 	
-	if len(sys.argv) > 1 and (sys.argv)[1]=="test":
+	if len(sys.argv) > 1 and (sys.argv)[1]=="develop":
 		developing = True
 		ip_address = get_if_addr("eth1")
 	else:

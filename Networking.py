@@ -34,3 +34,5 @@ class Networking:
 
 	def sendBroadcast(self, message, developing):
 		self.BroadcastSocket.sendto(message, (developBroadcast if developing else testBroadcast, clientBroadcastPort))
+		# self.BroadcastSocket.sendto(message, ("255.255.255.255", clientBroadcastPort))
+

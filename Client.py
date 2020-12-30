@@ -17,7 +17,7 @@ team_name = 'cyberWednesday'
 def analyzeBroadcatMessage(msg):
 	try:
 		cookie_offer_port = unpack('!IcH',msg)
-		if (cookie_offer_port[0] == 0xfeedbeef and cookie_offer_port[1] == 0x2):
+		if (cookie_offer_port[0] == 0xfeedbeef and cookie_offer_port[1] == bytes([0x2])):
 			return cookie_offer_port[2]
 		Printer.print_to_client_screen_green(f"Received unexpected broadcast message")
 	except:
