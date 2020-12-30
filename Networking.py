@@ -1,6 +1,8 @@
 import socket
 
 clientBroadcastPort = 13117
+developBroadcast = "172.1.255.255"
+testBroadcast = "172.99.255.255"
 
 class Networking:
 	def __init__(self, serverPort):
@@ -30,5 +32,5 @@ class Networking:
 		# Enable broadcasting mode
 		self.BroadcastSocket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
-	def sendBroadcast(self, message):
-		self.BroadcastSocket.sendto(message, ('255.255.255.255', clientBroadcastPort))
+	def sendBroadcast(self, message, developing):
+		self.BroadcastSocket.sendto(message, (developBroadcast if developing else testBroadcast, clientBroadcastPort))

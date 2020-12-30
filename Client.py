@@ -91,6 +91,7 @@ def main():
 
 	# listening on UDP channel for broadcast message
 	UDPClientSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	UDPClientSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 	try:
         # Binding out socket to a specific port so servers would be able to find the client
         # Maybe change '' to '<broadcast>'
