@@ -2,7 +2,6 @@ import socket
 import threading
 import time
 
-import scapy.all
 from scapy.arch import get_if_addr
 from ClientHandler import Client
 from Networking import Networking
@@ -25,7 +24,7 @@ clientGameMode = False
 # Broadcast Message
 bufferSize = 1024
 cookie_number = 0xfeedbeef
-offer_number = 0x02
+offer_number = bytes([0x02])
 
 clientsLists = []
 
@@ -68,7 +67,7 @@ def sendBroadcasts():
 	global broadcastMode
 	broadcastMode=True
 	while(broadcastMode):
-		message = pack('!IBI',cookie_number,offer_number,serverPort)
+		message = pack('!IcH',cookie_number,offer_number,serverPort)
 		networking.sendBroadcast(message, developing)
 		time.sleep(0.2)
 
