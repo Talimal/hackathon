@@ -195,7 +195,7 @@ Congratulations to everybody!:
 {namesString}
 """
 
-	mostTypedChar = f"Most typed char in this game was '{maxTypesChar}'' which was typed {maxTimesOfChar} times." if maxTimesOfChar != 0 else ""
+	mostTypedChar = f"Most typed char in this game was '{maxTypesChar}' which was typed {maxTimesOfChar} times." if maxTimesOfChar != 0 else ""
 	statisticsRegular = f"""
 Statistics
 ========
