@@ -2,12 +2,14 @@ import socket
 import threading
 import time
 
-import scapy
+import scapy.all
+from scapy.arch import get_if_addr
 from ClientHandler import Client
 from Networking import Networking
 from struct import pack
 import Printer
 from itertools import chain
+import sys
 
 serverPort = 12000
 ## getting the hostname by socket.gethostname() method
@@ -66,7 +68,7 @@ def sendBroadcasts():
 	global broadcastMode
 	broadcastMode=True
 	while(broadcastMode):
-		message = pack('IBI',cookie_number,offer_number,serverPort)
+		message = pack('!IBI',cookie_number,offer_number,serverPort)
 		networking.sendBroadcast(message, developing)
 		time.sleep(0.2)
 
@@ -249,12 +251,12 @@ def startGame():
 def getCorrectAddress():
 	global ip_address
 	global developing
-	mode = (sys.argv)[1]
-	if mode=="test":
+	
+	if len(sys.argv) > 1 and (sys.argv)[1]=="test":
 		developing = True
-		ip_address = scapy.get_if_addr("eth1")
+		ip_address = get_if_addr("eth1")
 	else:
-		ip_address = scapy.get_if_addr("eth2")
+		ip_address = get_if_addr("eth2")
 
 # Main thread ---------------------------------------------------------------------------------------------
 def main():
