@@ -7,7 +7,16 @@ import sys
 
 serverPort = 12000
 bufferSize = 1024
+
+# Broadcast Message
 clientPort = 13117
+cookie_number = 0xfeedbeef
+offer_number = 0x02
+
+# Networks
+developBroadcast = "172.1.0.0"
+testBroadcast = "172.99.0.0"
+
 team_name = 'cyberWednesday'
 
 # get message cookie and check if it is 0xfeedbeef
@@ -17,7 +26,7 @@ team_name = 'cyberWednesday'
 def analyzeBroadcatMessage(msg):
 	try:
 		cookie_offer_port = unpack('!IcH',msg)
-		if (cookie_offer_port[0] == 0xfeedbeef and cookie_offer_port[1] == bytes([0x2])):
+		if (cookie_offer_port[0] == cookie_number and cookie_offer_port[1] == bytes([offer_number])):
 			return cookie_offer_port[2]
 		Printer.print_to_client_screen_green(f"Received unexpected broadcast message")
 	except:
@@ -89,6 +98,11 @@ def emptySocketBuffer(socket):
 
 
 def main():
+	# Cheking if we are in develop mode
+	developing = False
+	if len(sys.argv) > 1 and (sys.argv)[1]=="develop":
+		developing = True
+
 	# setting the terminal to mode : no need for newline to read chars from keyboard
 	fd = sys.stdin.fileno()
 	old_settings = termios.tcgetattr(fd)
@@ -103,7 +117,7 @@ def main():
 	UDPClientSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 	try:
         # Binding out socket to a specific port so servers would be able to find the client
-		UDPClientSocket.bind(('', clientPort))
+		UDPClientSocket.bind((developBroadcast if developing else testBroadcast, clientPort))
 
 		Printer.print_to_client_screen_green(f'Client started, listening for offer requests...')
 		
