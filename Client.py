@@ -14,8 +14,8 @@ cookie_number = 0xfeedbeef
 offer_number = 0x02
 
 # Networks
-developBroadcast = "172.1.0.0"
-testBroadcast = "172.99.0.0"
+developBroadcast = "172.1.255.255"
+testBroadcast = "172.99.255.255"
 
 team_name = 'cyberWednesday'
 
