@@ -105,6 +105,7 @@ def getNamesByTeam(team):
 	teamGroups = filter(lambda client: client.getTeam() == team, clientsLists)
 	return map(lambda client: client.getTeamName(), teamGroups)
 
+# as it sounds, sengin the first message in the game
 def sendWelcomeMessage():
 	team1Names = getNamesByTeam(team1)
 	team2Names = getNamesByTeam(team2)
@@ -126,6 +127,8 @@ FIGHT!!!!!
 	
 	sendClients(message)
 
+# getting data from client, checking it is legal and if so, adding chars to client object
+# and updating the dictionary for the most popular char (bonus)
 def clientThreadGame(client):
 	global broadcastMode
 	global clientGameMode

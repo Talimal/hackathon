@@ -4,6 +4,7 @@ clientBroadcastPort = 13117
 developBroadcast = "172.1.255.255"
 testBroadcast = "172.99.255.255"
 
+# this class is responsible for all the networking functions and data transfer
 class Networking:
 	def __init__(self, serverPort):
 		self.createServerTCPSocket(serverPort)

@@ -1,3 +1,5 @@
+# this class is responsible for all the printing statemenets and color changes
+
 import math
 styleCodes = {
 	"NORMAL": 0,
@@ -19,10 +21,11 @@ class colorCodes:
 	GREEN = 154
 	RED = 211
 
+# multiple printing functions, each is different by color
+# printing in colors (bonus)
 def print_in_color(msg, color = colorCodes.ORANGE):
 	print(u"\u001b[38;5;" + str(color) + "m" + msg + " \u001b[0m\n")
 
-# ombre printing
 def print_clientMessage(msg):
 	print_in_color(msg, color = colorCodes.PINK_RED)
 
