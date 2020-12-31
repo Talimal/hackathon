@@ -24,6 +24,9 @@ def analyzeBroadcatMessage(msg):
 		Printer.print_to_client_screen_green(f"Received unexpected broadcast message")
 	return
 
+# getting a serverPort and serverIp address, trying to connect to the game
+# if connect is successful, sending the server the team name as mentioned in the requirements
+# if something went wrong, printing a message to the screen
 def connectToGame(serverPort, serverIp):
 	Printer.print_to_client_screen_green(f'Received offer from {serverIp}, attempting to connect...')
 
@@ -42,6 +45,8 @@ def connectToGame(serverPort, serverIp):
 
 
 # Gaming----------------------------------------------
+
+# 2 threads are in the client: one is reading from the keyboard (thread) and the other (main thread) if receiving data from server
 def gameOn(TCPSocket):
     #start the thread who listens to the keyboard
 	thread = threading.Thread(target=typeAnything, args=(TCPSocket, ))
@@ -50,7 +55,8 @@ def gameOn(TCPSocket):
     # the main thread receiving from server
 	receiveFromServer(TCPSocket)
 
-
+# this is the main thread that is receiving data from the server
+# waiting to receive data, once received checks the correctness of sentence (if not None) and prints it to the screen as mentioned
 def receiveFromServer(TCPSocket):
 	while(1):
 		try:
@@ -62,6 +68,7 @@ def receiveFromServer(TCPSocket):
 		except:
 			return
 
+# this is the function of the thread that is listening to the keyboard and sends all data from keyboard to the server
 def typeAnything(TCPSocket):
 	while(1):
 		try:
@@ -70,6 +77,7 @@ def typeAnything(TCPSocket):
 		except:
 			return
 
+# clearing the buffer from all data inside it
 def emptySocketBuffer(socket):
 	socket.setblocking(False)
 	while(True):
@@ -81,6 +89,7 @@ def emptySocketBuffer(socket):
 
 
 def main():
+	# setting the terminal to mode : no need for newline to read chars from keyboard
 	fd = sys.stdin.fileno()
 	old_settings = termios.tcgetattr(fd)
 	try:
@@ -94,7 +103,6 @@ def main():
 	UDPClientSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 	try:
         # Binding out socket to a specific port so servers would be able to find the client
-        # Maybe change '' to '<broadcast>'
 		UDPClientSocket.bind(('', clientPort))
 
 		Printer.print_to_client_screen_green(f'Client started, listening for offer requests...')
@@ -105,7 +113,7 @@ def main():
 			server_port = analyzeBroadcatMessage(msgFromServer)
 
 			if (server_port):
-				
+				# client connects to the game
 				TCPSocket = connectToGame(server_port, serverIp)
 				if(TCPSocket):
 					gameOn(TCPSocket)
